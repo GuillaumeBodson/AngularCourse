@@ -1,0 +1,23 @@
+<mat-card class="example-card">
+  <mat-card-header>
+    <mat-card-title>{{ formation().title }}</mat-card-title>
+    <mat-card-subtitle>{{ formation().location }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p>
+      {{ formation().description }}
+    </p>
+    Date : {{ formation().date | date: 'dd/MM/yyyy' }}
+    <mat-chip-set aria-label="Tags">
+      @for (tag of formation().tags; track tag) {
+        <mat-chip [ngClass]="{'hot-pink' : isAngular(tag)}">{{ tag }}</mat-chip>
+      }
+    </mat-chip-set>
+  </mat-card-content>
+  <mat-card-footer>
+    @if (!isDatePast(formation())) {
+      <button mat-button="filled">Participer</button>
+    }
+  </mat-card-footer>
+</mat-card>
