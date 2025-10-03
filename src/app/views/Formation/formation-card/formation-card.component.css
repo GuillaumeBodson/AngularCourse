@@ -3,6 +3,6 @@
   margin: 16px auto;
 }
 
-.hot-pink {
-  background-color: hotpink !important;
+.card-header{
+  cursor: pointer;
 }

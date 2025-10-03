@@ -1,0 +1,16 @@
+
+@if(!formation){
+  <h2>no formation with id {{formationId}} found</h2>
+}
+@else{
+  <h1>{{formation.title}}</h1>
+
+  <div>Lieu: {{formation.location}}</div>
+  <div>Date: {{formation.date | date:'dd/MM/yyy'}}</div>
+
+  <p>Description: {{formation.description}}</p>
+
+
+  <app-formation-tags [tags]="formation.tags"></app-formation-tags>
+
+}

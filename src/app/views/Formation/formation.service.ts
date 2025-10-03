@@ -34,10 +34,14 @@ export class FormationService {
     this.catalog.push(formation);
   }
 
-  removeFormation(formation: Formation): void {
+  deleteFormation(formation: Formation): void {
     const index = this.catalog.findIndex(f => f.id === formation.id);
     if (index !== -1) {
       this.catalog.splice(index, 1);
     }
+  }
+
+  getFormation(formationId: string) {
+    return this.catalog.find(f => f.id === formationId);
   }
 }

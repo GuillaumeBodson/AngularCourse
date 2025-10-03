@@ -1,5 +1,5 @@
 import {Component, inject, input} from '@angular/core';
-import {DatePipe, NgClass} from "@angular/common";
+import {DatePipe} from "@angular/common";
 import {
   MatCard,
   MatCardContent,
@@ -10,8 +10,9 @@ import {
 } from "@angular/material/card";
 import {Formation} from '../../../model/formation';
 import {MatButton} from '@angular/material/button';
-import {MatChip, MatChipSet} from '@angular/material/chips';
 import {FormationService} from '../formation.service';
+import {Router} from '@angular/router';
+import {FormationTagsComponent} from '../formation-tags.component/formation-tags.component';
 
 @Component({
   selector: 'app-formation-card',
@@ -24,16 +25,14 @@ import {FormationService} from '../formation.service';
     MatCardTitle,
     MatButton,
     MatCardSubtitle,
-    MatChipSet,
-    MatChip,
-    NgClass
+    FormationTagsComponent
   ],
   templateUrl: './formation-card.component.html',
   styleUrl: './formation-card.component.css'
 })
 export class FormationCardComponent {
   formationService = inject(FormationService);
-
+  router = inject(Router);
 
   formation = input.required<Formation>()
 
@@ -41,11 +40,11 @@ export class FormationCardComponent {
     return new Date().getTime() > formation.date.getTime();
   }
 
-  isAngular(tag: string) {
-    return 'Angular' === tag;
+  deleteFormation(formation: Formation) {
+    this.formationService.deleteFormation(formation);
   }
 
-  deleteFormation(formation: Formation) {
-    this.formationService.removeFormation(formation);
+  goToFormation(formation: Formation) {
+    this.router.navigate(['/detail', formation.id] );
   }
 }
