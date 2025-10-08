@@ -1,4 +1,4 @@
-import {Component, inject, input} from '@angular/core';
+import {Component, computed, inject, model} from '@angular/core';
 import {DatePipe} from "@angular/common";
 import {
   MatCard,
@@ -34,11 +34,12 @@ export class FormationCardComponent {
   formationService = inject(FormationService);
   router = inject(Router);
 
-  formation = input.required<Formation>()
+  formation = model.required<Formation>()
 
-  isDatePast(formation: Formation) {
-    return new Date().getTime() > formation.date.getTime();
-  }
+  isPast = computed(() => {
+    return Date.now() > this.formation().date.getTime();
+  });
+
 
   deleteFormation(formation: Formation) {
     this.formationService.deleteFormation(formation);
@@ -46,5 +47,13 @@ export class FormationCardComponent {
 
   goToFormation(formation: Formation) {
     this.router.navigate(['/detail', formation.id] );
+  }
+
+  // TODO: to be fixed
+  postPone() {
+    this.formation.update(f => {
+      f.date.setDate(f.date.getDate() + 1);
+      return f;
+    });
   }
 }

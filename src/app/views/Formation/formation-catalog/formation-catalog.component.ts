@@ -1,14 +1,18 @@
-import {Component, inject} from '@angular/core';
-import {Formation} from '../../../model/formation';
+import {Component, computed, inject, signal} from '@angular/core';
 import {FormationCardComponent} from '../formation-card/formation-card.component';
-import {FormationCreationComponent} from '../formation-creation/formation-creation.component';
 import {FormationService} from '../formation.service';
+import {MatFormField} from '@angular/material/form-field';
+import {MatInput, MatLabel} from '@angular/material/input';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-formation-catalog',
   imports: [
     FormationCardComponent,
-    FormationCreationComponent,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    FormsModule,
 
   ],
   templateUrl: './formation-catalog.component.html',
@@ -17,5 +21,11 @@ import {FormationService} from '../formation.service';
 export class FormationCatalogComponent {
 
   formationService = inject(FormationService);
-  catalog: Formation[] = this.formationService.getCatalog();
+  catalog = signal(this.formationService.getCatalog());
+
+  textfilter = signal("")
+
+  filteredCatalog = computed(
+    () => this.catalog().filter(f => f.title.toLowerCase().includes(this.textfilter().toLowerCase()))
+  );
 }

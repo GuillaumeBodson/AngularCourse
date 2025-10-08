@@ -1,35 +1,39 @@
-<form class="create-formation-form" [formGroup]="form">
-  <mat-form-field>
-    <mat-label>titre</mat-label>
-    <input matInput formControlName="title" placeholder="titre">
-    @if(!isTitleLengthValid()){
-      <mat-error>titre trop court</mat-error>
-    }
-    <mat-error/>
-  </mat-form-field>
+<form [formGroup]="form">
+  <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-2">
+    <mat-form-field>
+      <mat-label>titre</mat-label>
+      <input matInput formControlName="title" placeholder="titre">
+      @if (!isTitleLengthValid()) {
+        <mat-error>titre trop court</mat-error>
+      }
+      <mat-error/>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>description</mat-label>
-    <input matInput formControlName="description" placeholder="description">
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>description</mat-label>
+      <input matInput formControlName="description" placeholder="description">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>lieu</mat-label>
-    <input matInput formControlName="location" placeholder="lieu">
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>lieu</mat-label>
+      <input matInput formControlName="location" placeholder="lieu">
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Date</mat-label>
-    <input matInput [matDatepicker]="picker" formControlName="date">
-    <mat-hint>DD/MM/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>tags</mat-label>
-    <input matInput formControlName="tags" placeholder="tags separés par des virgules">
-  </mat-form-field>
+    <mat-form-field>
+      <mat-label>tags</mat-label>
+      <input matInput formControlName="tags" placeholder="tags separés par des virgules">
+    </mat-form-field>
+  </div>
 
-  <button mat-button [disabled]="!form.valid" (click)="addFormation()">Ajouter</button>
+  <div class="grid" >
+    <button mat-button [disabled]="!form.valid" (click)="addFormation()">Ajouter</button>
+  </div>
 </form>

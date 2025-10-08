@@ -1,5 +1,5 @@
-<mat-card class="example-card">
-  <mat-card-header (click)="goToFormation(formation())" class="card-header">
+<mat-card class="max-w-sm md:max-w-2xl m-2">
+  <mat-card-header (click)="goToFormation(formation())" class="cursor-pointer">
     <mat-card-title>{{ formation().title }}</mat-card-title>
     <mat-card-subtitle>{{ formation().location }}</mat-card-subtitle>
   </mat-card-header>
@@ -13,9 +13,11 @@
   <app-formation-tags [tags]="formation().tags"></app-formation-tags>
   </mat-card-content>
   <mat-card-footer>
-    @if (!isDatePast(formation())) {
+    @if (!isPast()) {
       <button mat-button="filled">Participer</button>
     }
     <button mat-button (click)="deleteFormation(formation())">Supprimer</button>
+
+    <button mat-button (click)="postPone()">post poser</button>
   </mat-card-footer>
 </mat-card>

@@ -1,5 +1,5 @@
 <mat-chip-set aria-label="Tags">
   @for (tag of tags(); track tag) {
-    <mat-chip [ngClass]="{'hot-pink' : isAngular(tag)}">{{ tag }}</mat-chip>
+    <mat-chip [ngClass]="{'!bg-pink-400' : isAngular(tag)}">{{ tag }}</mat-chip>
   }
 </mat-chip-set>
