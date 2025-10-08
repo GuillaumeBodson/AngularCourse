@@ -1,5 +1,5 @@
 <mat-card class="max-w-sm md:max-w-2xl m-2">
-  <mat-card-header (click)="goToFormation(formation())" class="cursor-pointer">
+  <mat-card-header (click)="goToFormation(formation())" class="cursor-pointer" [ngClass]="{'bg-cyan-500' : formation().isFree}" >
     <mat-card-title>{{ formation().title }}</mat-card-title>
     <mat-card-subtitle>{{ formation().location }}</mat-card-subtitle>
   </mat-card-header>
@@ -10,6 +10,10 @@
     </p>
     Date : {{ formation().date | date: 'dd/MM/yyyy' }}
 
+    <div>
+      {{formation().price}} €
+      {{formation().durationHours }} heures
+    </div>
   <app-formation-tags [tags]="formation().tags"></app-formation-tags>
   </mat-card-content>
   <mat-card-footer>

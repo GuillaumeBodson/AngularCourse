@@ -1,5 +1,5 @@
 import {Component, computed, inject, model} from '@angular/core';
-import {DatePipe} from "@angular/common";
+import {DatePipe, NgClass} from "@angular/common";
 import {
   MatCard,
   MatCardContent,
@@ -25,7 +25,8 @@ import {FormationTagsComponent} from '../formation-tags.component/formation-tags
     MatCardTitle,
     MatButton,
     MatCardSubtitle,
-    FormationTagsComponent
+    FormationTagsComponent,
+    NgClass
   ],
   templateUrl: './formation-card.component.html',
   styleUrl: './formation-card.component.css'
