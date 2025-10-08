@@ -19,13 +19,14 @@ import {FormsModule} from '@angular/forms';
   styleUrl: './formation-catalog.component.css'
 })
 export class FormationCatalogComponent {
-
   formationService = inject(FormationService);
-  catalog = signal(this.formationService.getCatalog());
 
   textfilter = signal("")
 
   filteredCatalog = computed(
-    () => this.catalog().filter(f => f.title.toLowerCase().includes(this.textfilter().toLowerCase()))
+    () => this.formationService.catalog().filter(f => f.title.toLowerCase().includes(this.textfilter().toLowerCase()))
   );
+
 }
+
+

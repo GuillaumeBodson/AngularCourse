@@ -41,18 +41,20 @@ export class FormationCardComponent {
   });
 
 
-  deleteFormation(formation: Formation) {
-    this.formationService.deleteFormation(formation);
+  deleteFormation() {
+    this.formationService.deleteFormation(this.formation());
   }
 
   goToFormation(formation: Formation) {
     this.router.navigate(['/detail', formation.id] );
   }
 
-  // TODO: to be fixed
   postPone() {
     this.formation.update(f => {
-      f.date.setDate(f.date.getDate() + 1);
+      let newDate = new Date(f.date);
+      newDate.setDate(newDate.getDate() + 1);
+      f.date = newDate;
+
       return f;
     });
   }
