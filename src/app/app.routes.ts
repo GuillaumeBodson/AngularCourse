@@ -6,6 +6,7 @@ import {FormationDetailComponent} from './views/Formation/formation-detail.compo
 export const routes: Routes = [
   {path: '', redirectTo: 'catalog', pathMatch: 'full'},
   {path: 'catalog', component: FormationCatalogComponent},
+  {path: 'catalog/:filter', component: FormationCatalogComponent},
   {path: 'creation', component: FormationCreationComponent},
   {path:'detail/:id', component: FormationDetailComponent}
 ];

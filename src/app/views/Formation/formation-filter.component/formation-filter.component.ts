@@ -13,6 +13,7 @@ import {MatOption, MatSelect} from "@angular/material/select";
 import {FormationFilter} from '../../../model/formationFilter';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckbox} from '@angular/material/checkbox';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-formation-filter',
@@ -37,7 +38,7 @@ import {MatCheckbox} from '@angular/material/checkbox';
   styleUrl: './formation-filter.component.css'
 })
 export class FormationFilterComponent {
-
+  router = inject(Router)
   tagService = inject(TagService);
   filter = model.required<FormationFilter|null>()
 
@@ -58,18 +59,21 @@ export class FormationFilterComponent {
 
   submit() {
     const v = this.form.value;
-    let formation :FormationFilter = {
+    let formationFilter :FormationFilter = {
       title: v.title??'',
       tags: v.tags ?? [],
       maxPrice: v.maxPrice ?? null,
       availableSeatsMin: v.availableSeatsMin ?? -1,
       startDate: v.range?.start ?? null,
-      endDate: v.range?.end ?? null
+      endDate: v.range?.end ?? null,
+      onlyPastFormations: v.PreviousFormations ?? false
     };
     if(v.PreviousFormations){
-      formation.endDate = new Date();
-      formation.startDate = null;
+      formationFilter.endDate = new Date();
+      formationFilter.startDate = null;
     }
-    this.filter.set(formation);
+
+    this.router.navigate(['/catalog', {filter: JSON.stringify(formationFilter)}]);
+    //this.filter.set(formationFilter);
   }
 }

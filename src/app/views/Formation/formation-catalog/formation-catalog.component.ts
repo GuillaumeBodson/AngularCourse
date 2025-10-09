@@ -6,6 +6,7 @@ import {FormationFilterComponent} from '../formation-filter.component/formation-
 import {FormationFilter} from '../../../model/formationFilter';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-formation-catalog',
@@ -21,12 +22,17 @@ import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 })
 export class FormationCatalogComponent {
   formationService = inject(FormationService);
+  route = inject(ActivatedRoute);
+  queryFilter = signal(this.route.snapshot.paramMap.get('filter'));
 
-  filter :WritableSignal<FormationFilter|null> = signal(null)
+  filter :WritableSignal<FormationFilter|null> = signal(JSON.parse(this.queryFilter() || 'null'))
 
   filteredCatalog = computed(
     () => {
       let catalog = this.formationService.catalog();
+      let test = this.queryFilter();
+
+      let formationFilterFromQuery: FormationFilter|null = JSON.parse(this.queryFilter() || 'null');
 
       if(this.filter()?.title){
         catalog = catalog.filter(f => f.title.toLowerCase().includes(this.filter()!.title.toLowerCase()));

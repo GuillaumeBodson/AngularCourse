@@ -5,4 +5,5 @@ export type FormationFilter = {
   availableSeatsMin: number,
   startDate: Date | null,
   endDate: Date | null,
+  onlyPastFormations: boolean
 }
