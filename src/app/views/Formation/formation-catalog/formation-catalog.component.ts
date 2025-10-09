@@ -41,7 +41,7 @@ export class FormationCatalogComponent {
         catalog = catalog.filter(f => f.remainingSeats >= this.filter()!.availableSeatsMin!);
       }
       if((this.filter()?.startDate && this.filter()?.endDate && this.filter()?.startDate == this.filter()?.endDate) || this.filter()?.startDate ){
-        catalog.filter(f => f.date >= this.filter()!.startDate!);
+        catalog = catalog.filter(f => f.date >= this.filter()!.startDate!);
       }
       if(this.filter()?.endDate){
         catalog = catalog.filter(f => f.date <= this.filter()!.endDate!);
