@@ -1,13 +1,23 @@
-<div class="flex flex-col md:flex-row gap-2 border border-gray-300 p-2">
+<mat-accordion>
+  <mat-expansion-panel >
+    <mat-expansion-panel-header>
+      <mat-panel-title> filtres </mat-panel-title>
+      <mat-panel-description>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-formation-filter [(filter)]="filter"></app-formation-filter>
+  </mat-expansion-panel>
+</mat-accordion>
 
-  <mat-form-field>
-    <mat-label>Rechercher</mat-label>
-    <input [(ngModel)]="textfilter"
-      matInput placeholder="Rechercher">
-  </mat-form-field>
-</div>
-
-
-@for (formation of filteredCatalog(); track formation.id) {
+@for (formation of pagedCatalog(); track formation.id) {
   <app-formation-card [formation]="formation"></app-formation-card>
 }
+
+<mat-paginator
+  [length]="filteredCatalog().length"
+  [pageIndex]="pageIndex()"
+  [pageSize]="pageSize()"
+  [pageSizeOptions]="pageSizeOptions"
+  aria-label="Select page"
+  (page)="onPage($event)">
+</mat-paginator>

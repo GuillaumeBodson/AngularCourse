@@ -1,5 +1,5 @@
 import {Component, computed, inject, model} from '@angular/core';
-import {DatePipe} from "@angular/common";
+import {DatePipe, NgClass} from "@angular/common";
 import {
   MatCard,
   MatCardContent,
@@ -25,7 +25,8 @@ import {FormationTagsComponent} from '../formation-tags.component/formation-tags
     MatCardTitle,
     MatButton,
     MatCardSubtitle,
-    FormationTagsComponent
+    FormationTagsComponent,
+    NgClass
   ],
   templateUrl: './formation-card.component.html',
   styleUrl: './formation-card.component.css'
@@ -41,18 +42,20 @@ export class FormationCardComponent {
   });
 
 
-  deleteFormation(formation: Formation) {
-    this.formationService.deleteFormation(formation);
+  deleteFormation() {
+    this.formationService.deleteFormation(this.formation());
   }
 
   goToFormation(formation: Formation) {
     this.router.navigate(['/detail', formation.id] );
   }
 
-  // TODO: to be fixed
   postPone() {
     this.formation.update(f => {
-      f.date.setDate(f.date.getDate() + 1);
+      let newDate = new Date(f.date);
+      newDate.setDate(newDate.getDate() + 1);
+      f.date = newDate;
+
       return f;
     });
   }

@@ -1,0 +1,47 @@
+<form [formGroup]="form">
+  <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-2">
+    <mat-form-field>
+      <mat-label>Titre</mat-label>
+      <input matInput formControlName="title" placeholder="Titre">
+    </mat-form-field>
+
+
+      <mat-checkbox formControlName="PreviousFormations">Seulement les formations passées</mat-checkbox>
+
+    <mat-form-field >
+      <mat-label>Enter a date range</mat-label>
+      <mat-date-range-input formGroupName="range" [rangePicker]="picker" >
+        <input matStartDate formControlName="start" placeholder="Start date" [disabled]="this.form.controls.PreviousFormations.value||false">
+        <input matEndDate formControlName="end" placeholder="End date" [disabled]="this.form.controls.PreviousFormations.value||false">
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Prix maximum</mat-label>
+      <input matInput type="number" formControlName="maxPrice" placeholder="Prix maximum">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>nombre de places disponibles</mat-label>
+      <input matInput type="number" formControlName="availableSeatsMin" placeholder="nombre de places disponibles">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>tags</mat-label>
+      <mat-select formControlName="tags" multiple>
+        <mat-option>--</mat-option>
+        @for (tag of tagService.tags(); track tag) {
+          <mat-option [value]="tag">{{tag}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="grid" >
+    <button mat-button [disabled]="!form.valid" (click)="submit()">soumettre</button>
+  </div>
+</form>
+

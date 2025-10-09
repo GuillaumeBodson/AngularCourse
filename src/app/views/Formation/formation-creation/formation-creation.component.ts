@@ -1,7 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Formation} from '../../../model/formation';
-import {uuid} from '../../../shared/uuid';
 import {MatButton} from '@angular/material/button';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 import {MatError, MatFormField, MatHint, MatSuffix} from '@angular/material/form-field';
@@ -41,14 +40,13 @@ export class FormationCreationComponent {
   });
 
   addFormation() {
-    const formation: Formation = {
-      id: uuid(),
-      title: this.form.controls.title.value!,
-      description: this.form.controls.description?.value ?? '',
-      location: this.form.controls.location.value!,
-      date: this.form.controls.date.value!,
-      tags: this.form.controls.tags.value?.split(',').map(tag => tag.trim()) || []
-    }
+    const formation: Formation = new Formation(
+      this.form.controls.title.value!,
+      this.form.controls.description?.value ?? '',
+      this.form.controls.location.value!,
+      this.form.controls.date.value!,
+      this.form.controls.tags.value?.split(',').map(tag => tag.trim()) || [],
+      0,20,9,8);
 
     this.formationService.addFormation(formation);
     this.form.reset();
