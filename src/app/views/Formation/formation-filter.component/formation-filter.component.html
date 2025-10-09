@@ -6,30 +6,17 @@
     </mat-form-field>
 
 
-<!--    <mat-form-field>-->
-<!--      <mat-label>Date</mat-label>-->
-<!--      <input matInput [matDatepicker]="picker" formControlName="date">-->
-<!--      <mat-hint>DD/MM/YYYY</mat-hint>-->
-<!--      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>-->
-<!--      <mat-datepicker #picker></mat-datepicker>-->
-<!--    </mat-form-field>-->
+      <mat-checkbox formControlName="PreviousFormations">Seulement les formations passées</mat-checkbox>
 
     <mat-form-field >
       <mat-label>Enter a date range</mat-label>
-      <mat-date-range-input formGroupName="range" [rangePicker]="picker">
-        <input matStartDate formControlName="start" placeholder="Start date">
-        <input matEndDate formControlName="end" placeholder="End date">
+      <mat-date-range-input formGroupName="range" [rangePicker]="picker" >
+        <input matStartDate formControlName="start" placeholder="Start date" [disabled]="this.form.controls.PreviousFormations.value||false">
+        <input matEndDate formControlName="end" placeholder="End date" [disabled]="this.form.controls.PreviousFormations.value||false">
       </mat-date-range-input>
       <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
-
-<!--      @if (form.controls.range.controls.start.hasError('matStartDateInvalid')) {-->
-<!--        <mat-error>Invalid start date</mat-error>-->
-<!--      }-->
-<!--      @if (form.controls.range.controls.end.hasError('matEndDateInvalid')) {-->
-<!--        <mat-error>Invalid end date</mat-error>-->
-<!--      }-->
     </mat-form-field>
 
     <mat-form-field>

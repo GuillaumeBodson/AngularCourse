@@ -9,6 +9,15 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-@for (formation of filteredCatalog(); track formation.id) {
+@for (formation of pagedCatalog(); track formation.id) {
   <app-formation-card [formation]="formation"></app-formation-card>
 }
+
+<mat-paginator
+  [length]="filteredCatalog().length"
+  [pageIndex]="pageIndex()"
+  [pageSize]="pageSize()"
+  [pageSizeOptions]="pageSizeOptions"
+  aria-label="Select page"
+  (page)="onPage($event)">
+</mat-paginator>

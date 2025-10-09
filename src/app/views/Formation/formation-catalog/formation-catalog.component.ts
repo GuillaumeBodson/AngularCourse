@@ -5,6 +5,7 @@ import {FormsModule} from '@angular/forms';
 import {FormationFilterComponent} from '../formation-filter.component/formation-filter.component';
 import {FormationFilter} from '../../../model/formationFilter';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-formation-catalog',
@@ -12,15 +13,14 @@ import {MatExpansionModule} from '@angular/material/expansion';
     FormationCardComponent,
     FormsModule,
     FormationFilterComponent,
-    MatExpansionModule
+    MatExpansionModule,
+    MatPaginatorModule
   ],
   templateUrl: './formation-catalog.component.html',
   styleUrl: './formation-catalog.component.css'
 })
 export class FormationCatalogComponent {
   formationService = inject(FormationService);
-
-  textfilter = signal("")
 
   filter :WritableSignal<FormationFilter|null> = signal(null)
 
@@ -48,6 +48,23 @@ export class FormationCatalogComponent {
       }
       return catalog;
     });
+
+  // Pagination
+  readonly pageIndex = signal(0);
+  readonly pageSize = signal(2);
+  readonly pageSizeOptions = [2, 5, 10];
+
+  readonly pagedCatalog = computed(() => {
+    const list = this.filteredCatalog();
+    const start = this.pageIndex() * this.pageSize();
+    return list.slice(start, start + this.pageSize());
+  });
+
+  onPage(event: PageEvent) {
+    this.pageIndex.set(event.pageIndex);
+    this.pageSize.set(event.pageSize);
+  }
+
 }
 
 

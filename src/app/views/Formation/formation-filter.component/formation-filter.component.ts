@@ -12,6 +12,7 @@ import {TagService} from '../tag.service';
 import {MatOption, MatSelect} from "@angular/material/select";
 import {FormationFilter} from '../../../model/formationFilter';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatCheckbox} from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-formation-filter',
@@ -29,7 +30,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
     MatSelect,
     MatOption,
     MatDateRangeInput,
-    MatDateRangePicker
+    MatDateRangePicker,
+    MatCheckbox
   ],
   templateUrl: './formation-filter.component.html',
   styleUrl: './formation-filter.component.css'
@@ -42,6 +44,7 @@ export class FormationFilterComponent {
   form = new FormGroup({
     title: new FormControl<string>('',
       [Validators.maxLength(100)]),
+    PreviousFormations: new FormControl<boolean>(false),
     range: new FormGroup({
       start: new FormControl<Date | null>(null),
       end: new FormControl<Date | null>(null),
@@ -55,13 +58,18 @@ export class FormationFilterComponent {
 
   submit() {
     const v = this.form.value;
-    this.filter.set({
+    let formation :FormationFilter = {
       title: v.title??'',
       tags: v.tags ?? [],
       maxPrice: v.maxPrice ?? null,
       availableSeatsMin: v.availableSeatsMin ?? -1,
       startDate: v.range?.start ?? null,
       endDate: v.range?.end ?? null
-    });
+    };
+    if(v.PreviousFormations){
+      formation.endDate = new Date();
+      formation.startDate = null;
+    }
+    this.filter.set(formation);
   }
 }
