@@ -1,6 +1,6 @@
 <mat-sidenav-container class="app-container">
 
-  <mat-sidenav mode="side" opened>
+  <mat-sidenav mode="side" [opened]="menuService.isMenuOpen()" >
     <mat-toolbar color="primary">Menu</mat-toolbar>
     <mat-nav-list>
       <app-menu></app-menu>
