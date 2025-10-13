@@ -30,10 +30,19 @@ export class FormationCatalogComponent {
   filteredCatalog = computed(
     () => {
       let catalog = this.formationService.catalog();
-      let test = this.queryFilter();
+      let test = this.queryFilter;
 
       let formationFilterFromQuery: FormationFilter|null = JSON.parse(this.queryFilter() || 'null');
-
+      const test2 = (this.filter()??FormationFilter.default()) as FormationFilter
+      const filterTest :FormationFilter = this.filter()??formationFilterFromQuery??FormationFilter.default()
+      console.log(test2)
+      // if(test2){
+      //   catalog = test2.applyFilter(catalog)??catalog;
+      //   console.log(catalog)
+      // }else {
+      //   console.log('No valid filter found');
+      // }
+      // return catalog;
       if(this.filter()?.title){
         catalog = catalog.filter(f => f.title.toLowerCase().includes(this.filter()!.title.toLowerCase()));
       }

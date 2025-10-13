@@ -59,21 +59,17 @@ export class FormationFilterComponent {
 
   submit() {
     const v = this.form.value;
-    let formationFilter :FormationFilter = {
-      title: v.title??'',
-      tags: v.tags ?? [],
-      maxPrice: v.maxPrice ?? null,
-      availableSeatsMin: v.availableSeatsMin ?? -1,
-      startDate: v.range?.start ?? null,
-      endDate: v.range?.end ?? null,
-      onlyPastFormations: v.PreviousFormations ?? false
-    };
-    if(v.PreviousFormations){
-      formationFilter.endDate = new Date();
-      formationFilter.startDate = null;
-    }
+    let formationFilter: FormationFilter = new FormationFilter(
+      v.title ?? '',
+      v.tags ?? [],
+      v.maxPrice ?? null,
+      v.availableSeatsMin ?? -1,
+      v.range?.start ?? null,
+      v.range?.end ?? null,
+      v.PreviousFormations ?? false
+    );
 
+    this.filter.set(formationFilter);
     this.router.navigate(['/catalog', {filter: JSON.stringify(formationFilter)}]);
-    //this.filter.set(formationFilter);
   }
 }
