@@ -1,4 +1,4 @@
-import {Component, inject, model} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
 import {
@@ -40,7 +40,7 @@ import {Router} from '@angular/router';
 export class FormationFilterComponent {
   router = inject(Router)
   tagService = inject(TagService);
-  filter = model.required<FormationFilter|null>()
+  //filter = model.required<FormationFilter|null>()
 
   form = new FormGroup({
     title: new FormControl<string>('',
@@ -69,7 +69,8 @@ export class FormationFilterComponent {
       v.PreviousFormations ?? false
     );
 
-    this.filter.set(formationFilter);
-    this.router.navigate(['/catalog', {filter: JSON.stringify(formationFilter)}]);
+    this.router.navigate(
+      ['/catalog'],
+      { queryParams: { filter: JSON.stringify(formationFilter) } });
   }
 }

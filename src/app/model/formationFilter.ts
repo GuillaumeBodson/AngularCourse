@@ -24,6 +24,12 @@ export class FormationFilter {
     }
   }
 
+  static fromJson(json: any): FormationFilter|null {
+    if(!json) return null;
+
+    return new FormationFilter(json.title, json.tags, json.maxPrice, json.availableSeatsMin, json.startDate ? new Date(json.startDate) : null, json.endDate ? new Date(json.endDate) : null, json.onlyPastFormations);
+  }
+
   public applyFilter(catalog: Formation[]) :Formation[]{
     if(this.title){
       catalog = catalog.filter(f => f.title.toLowerCase().includes(this.title.toLowerCase()));
