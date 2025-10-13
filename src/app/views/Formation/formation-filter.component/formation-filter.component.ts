@@ -1,4 +1,4 @@
-import {Component, inject, model} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
 import {
@@ -13,6 +13,7 @@ import {MatOption, MatSelect} from "@angular/material/select";
 import {FormationFilter} from '../../../model/formationFilter';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckbox} from '@angular/material/checkbox';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-formation-filter',
@@ -37,9 +38,9 @@ import {MatCheckbox} from '@angular/material/checkbox';
   styleUrl: './formation-filter.component.css'
 })
 export class FormationFilterComponent {
-
+  router = inject(Router)
   tagService = inject(TagService);
-  filter = model.required<FormationFilter|null>()
+  //filter = model.required<FormationFilter|null>()
 
   form = new FormGroup({
     title: new FormControl<string>('',
@@ -58,18 +59,18 @@ export class FormationFilterComponent {
 
   submit() {
     const v = this.form.value;
-    let formation :FormationFilter = {
-      title: v.title??'',
-      tags: v.tags ?? [],
-      maxPrice: v.maxPrice ?? null,
-      availableSeatsMin: v.availableSeatsMin ?? -1,
-      startDate: v.range?.start ?? null,
-      endDate: v.range?.end ?? null
-    };
-    if(v.PreviousFormations){
-      formation.endDate = new Date();
-      formation.startDate = null;
-    }
-    this.filter.set(formation);
+    let formationFilter: FormationFilter = new FormationFilter(
+      v.title ?? '',
+      v.tags ?? [],
+      v.maxPrice ?? null,
+      v.availableSeatsMin ?? -1,
+      v.range?.start ?? null,
+      v.range?.end ?? null,
+      v.PreviousFormations ?? false
+    );
+
+    this.router.navigate(
+      ['/catalog'],
+      { queryParams: { filter: JSON.stringify(formationFilter) } });
   }
 }

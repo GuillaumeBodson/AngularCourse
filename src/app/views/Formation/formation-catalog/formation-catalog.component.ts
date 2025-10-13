@@ -6,6 +6,9 @@ import {FormationFilterComponent} from '../formation-filter.component/formation-
 import {FormationFilter} from '../../../model/formationFilter';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
+import {ActivatedRoute} from '@angular/router';
+import {toSignal} from '@angular/core/rxjs-interop';
+import {map} from 'rxjs';
 
 @Component({
   selector: 'app-formation-catalog',
@@ -21,31 +24,33 @@ import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 })
 export class FormationCatalogComponent {
   formationService = inject(FormationService);
+  route = inject(ActivatedRoute);
+
+  readonly queryFilter = toSignal(
+    this.route.queryParamMap.pipe(map(p => p.get('filter'))),
+    { initialValue: null }
+  );
 
   filter :WritableSignal<FormationFilter|null> = signal(null)
+
+  readonly parsedFilter = computed(() => {
+    const raw = this.queryFilter();
+    if (!raw) return null;
+    try {
+      const json = JSON.parse(raw) as FormationFilter;
+      return FormationFilter.fromJson(json);
+    } catch {
+      return null;
+    }
+  });
+
 
   filteredCatalog = computed(
     () => {
       let catalog = this.formationService.catalog();
+      if (!this.parsedFilter()) return catalog;
 
-      if(this.filter()?.title){
-        catalog = catalog.filter(f => f.title.toLowerCase().includes(this.filter()!.title.toLowerCase()));
-      }
-      if(this.filter()?.tags && this.filter()!.tags.length > 0){
-        catalog = catalog.filter(f => this.filter()!.tags!.every(tag => f.tags.includes(tag)));
-      }
-      if(this.filter()?.maxPrice != null){
-        catalog = catalog.filter(f => f.price <= this.filter()!.maxPrice!);
-      }
-      if(this.filter()?.availableSeatsMin != null && this.filter()!.availableSeatsMin! > 0){
-        catalog = catalog.filter(f => f.remainingSeats >= this.filter()!.availableSeatsMin!);
-      }
-      if((this.filter()?.startDate && this.filter()?.endDate && this.filter()?.startDate == this.filter()?.endDate) || this.filter()?.startDate ){
-        catalog = catalog.filter(f => f.date >= this.filter()!.startDate!);
-      }
-      if(this.filter()?.endDate){
-        catalog = catalog.filter(f => f.date <= this.filter()!.endDate!);
-      }
+      catalog = this.parsedFilter()!.applyFilter(catalog);
       return catalog;
     });
 
