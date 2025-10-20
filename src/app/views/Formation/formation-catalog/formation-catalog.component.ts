@@ -9,6 +9,9 @@ import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 import {ActivatedRoute} from '@angular/router';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {map} from 'rxjs';
+import {
+  DistanceSliderComponent
+} from '../formation-filter.component/distance-slider.component/distance-slider.component';
 
 @Component({
   selector: 'app-formation-catalog',
@@ -17,7 +20,8 @@ import {map} from 'rxjs';
     FormsModule,
     FormationFilterComponent,
     MatExpansionModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    DistanceSliderComponent
   ],
   templateUrl: './formation-catalog.component.html',
   styleUrl: './formation-catalog.component.css'
@@ -32,6 +36,7 @@ export class FormationCatalogComponent {
   );
 
   filter :WritableSignal<FormationFilter|null> = signal(null)
+  distanceFilter = signal(100)
 
   readonly parsedFilter = computed(() => {
     const raw = this.queryFilter();
@@ -48,6 +53,8 @@ export class FormationCatalogComponent {
   filteredCatalog = computed(
     () => {
       let catalog = this.formationService.catalog();
+      catalog = catalog.filter(f => f.distance <= this.distanceFilter());
+
       if (!this.parsedFilter()) return catalog;
 
       catalog = this.parsedFilter()!.applyFilter(catalog);

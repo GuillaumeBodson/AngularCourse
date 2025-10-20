@@ -52,11 +52,15 @@ export class FormationCardComponent {
 
   postPone() {
     this.formation.update(f => {
-      let newDate = new Date(f.date);
+      let newDate = new Date();
       newDate.setDate(newDate.getDate() + 1);
       f.date = newDate;
 
-      return f;
+      return Object.assign(
+        Object.create(Object.getPrototypeOf(f)),
+        f,
+        { date: newDate }
+      ) as Formation;
     });
   }
 }

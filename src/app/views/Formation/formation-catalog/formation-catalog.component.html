@@ -9,6 +9,9 @@
   </mat-expansion-panel>
 </mat-accordion>
 
+<app-distance-slider [(value)]="distanceFilter" ></app-distance-slider>
+
+
 @for (formation of pagedCatalog(); track formation.id) {
   <app-formation-card [formation]="formation"></app-formation-card>
 }

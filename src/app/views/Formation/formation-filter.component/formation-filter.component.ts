@@ -32,7 +32,7 @@ import {Router} from '@angular/router';
     MatOption,
     MatDateRangeInput,
     MatDateRangePicker,
-    MatCheckbox
+    MatCheckbox,
   ],
   templateUrl: './formation-filter.component.html',
   styleUrl: './formation-filter.component.css'
@@ -66,7 +66,7 @@ export class FormationFilterComponent {
       v.availableSeatsMin ?? -1,
       v.range?.start ?? null,
       v.range?.end ?? null,
-      v.PreviousFormations ?? false
+      v.PreviousFormations ?? false,
     );
 
     this.router.navigate(
