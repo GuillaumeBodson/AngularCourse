@@ -1,7 +1,13 @@
 <mat-sidenav-container class="app-container">
 
   <mat-sidenav mode="side" [opened]="menuService.isMenuOpen()" >
-    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-toolbar color="primary">
+
+      <button matMiniFab color="secondary" [hidden]="!this.menuService.isMenuOpen()" (click)="this.menuService.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+
     <mat-nav-list>
       <app-menu></app-menu>
     </mat-nav-list>

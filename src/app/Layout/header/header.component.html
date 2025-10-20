@@ -1,6 +1,6 @@
 <mat-toolbar color="primary" class="app-header">
-  <button matMiniFab aria-label="Example icon button with a menu icon" (click)="toggleSidenav()">
-    <mat-icon>menu</mat-icon>
-  </button>
+  <button matMiniFab color="secondary" (click)="this.menuService.toggle()" [hidden]="this.menuService.isMenuOpen()"> > </button>
+
   <span>My App</span>
+
 </mat-toolbar>

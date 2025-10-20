@@ -1,4 +1,4 @@
-import {Component, inject, input} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MatToolbar} from "@angular/material/toolbar";
 import {Menu} from '../menu';
 import {MatIconModule} from '@angular/material/icon';
@@ -15,11 +15,5 @@ import {MatMiniFabButton} from '@angular/material/button';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-menuService = inject(Menu);
-
-isOpened = input(false);
-
-  toggleSidenav() {
-    this.menuService.toggle();
-  }
+  menuService = inject(Menu);
 }

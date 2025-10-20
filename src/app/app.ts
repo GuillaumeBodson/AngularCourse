@@ -7,6 +7,8 @@ import {HeaderComponent} from './Layout/header/header.component';
 import {ContentComponent} from './Layout/content/content.component';
 import {MenuComponent} from './Layout/menu/menu.component';
 import {Menu} from './Layout/menu';
+import {MatMiniFabButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
 
 
 @Component({
@@ -16,7 +18,7 @@ import {Menu} from './Layout/menu';
     MatToolbar,
     MatNavList,
     MatSidenavContent,
-    FooterComponent, HeaderComponent, ContentComponent, MenuComponent],
+    FooterComponent, HeaderComponent, ContentComponent, MenuComponent, MatMiniFabButton, MatIcon, MatIcon],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
