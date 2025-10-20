@@ -9,8 +9,8 @@ export class Formation {
     public tags: string[],
     public price: number,
     public remainingSeats: number,
-    public timeStart: number,
     public durationHours: number,
+    public distance: number
   ) {
     this.id = uuid();
   }

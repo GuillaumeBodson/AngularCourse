@@ -1,3 +1,6 @@
 <mat-toolbar color="primary" class="app-header">
+  <button matMiniFab color="secondary" (click)="this.menuService.toggle()" [hidden]="this.menuService.isMenuOpen()"> > </button>
+
   <span>My App</span>
+
 </mat-toolbar>
