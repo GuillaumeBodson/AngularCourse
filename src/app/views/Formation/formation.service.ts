@@ -1,6 +1,21 @@
-import {inject, Injectable, signal} from '@angular/core';
+import {inject, Injectable, Signal, signal} from '@angular/core';
 import {Formation} from '../../model/formation';
 import {NotificationService} from '../notification.service';
+import {catchError, map, Observable, of, startWith, Subject, switchMap} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {UUID} from '../../shared/uuid';
+import {toSignal} from '@angular/core/rxjs-interop';
+
+
+type FormationDTO ={
+  id: UUID;
+  title: string;
+  description: string;
+  location: string;
+  date: string;
+  tags: string[];
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +37,34 @@ export class FormationService {
     private _notificationService = inject(NotificationService);
   constructor() {
   }
+
+
+  private readonly FORMATION_URL = 'http://localhost:8080/formations';
+  http = inject(HttpClient);
+
+  private readonly refreshTrigger$ = new Subject<void>()
+  private readonly findFormations :Observable<Formation[]> =
+    this.refreshTrigger$.pipe(
+      startWith([]),
+      switchMap(() :Observable<FormationDTO[]> => this.http.get<FormationDTO[]>(this.FORMATION_URL)),
+      map(data => {
+        return data.map(this.mapFormation);
+      }),
+      catchError(err => {
+        console.log('error fetching formations', err);
+        return of([]);
+      })
+    );
+
   catalog = signal<Formation[]>(this._catalog);
+
+  private readonly mapFormation = (f: FormationDTO) => {
+    return {
+      ...f,
+            date: new Date(f.date),
+      distance: Math.floor(Math.random() * 100),
+    } as Formation
+  }
 
 
   addFormation(formation: Formation): void {
@@ -44,7 +86,14 @@ export class FormationService {
     }
   }
 
-  getFormation(formationId: string) {
-    return this.catalog().find(f => f.id === formationId);
+  getFormation(formationId: UUID) :Signal<Formation> {
+    return toSignal(this.http.get<FormationDTO>(`${this.FORMATION_URL}/${formationId}`)
+      .pipe(map(this.mapFormation),
+        catchError(err => {
+          console.log(`error fetching formation with id ${formationId}`, err);
+          throw err;
+        })),
+      {initialValue: {} as Formation}
+      );
   }
 }

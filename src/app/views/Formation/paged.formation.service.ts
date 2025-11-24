@@ -1,4 +1,4 @@
-import {computed, inject, Injectable, signal, WritableSignal} from '@angular/core';
+import {computed, inject, Injectable, signal} from '@angular/core';
 import {FormationFilter} from '../../model/formationFilter';
 import {toSignal} from '@angular/core/rxjs-interop';
 import {map} from 'rxjs';
