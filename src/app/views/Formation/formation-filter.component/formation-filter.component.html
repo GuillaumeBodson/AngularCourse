@@ -6,7 +6,7 @@
     </mat-form-field>
 
 
-      <mat-checkbox formControlName="PreviousFormations">Seulement les formations passées</mat-checkbox>
+      <mat-checkbox formControlName="PreviousFormations">Masquer les formations passées</mat-checkbox>
 
     <mat-form-field >
       <mat-label>Enter a date range</mat-label>
@@ -38,7 +38,9 @@
         }
       </mat-select>
     </mat-form-field>
+
   </div>
+
 
   <div class="grid" >
     <button mat-button [disabled]="!form.valid" (click)="submit()">soumettre</button>
