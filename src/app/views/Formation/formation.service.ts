@@ -1,5 +1,6 @@
-import {Injectable, signal} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {Formation} from '../../model/formation';
+import {NotificationService} from '../notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class FormationService {
     new Formation('C# - ASP.NET Core', 'Créez des applications web avec ASP.NET Core', 'Bruxelles', new Date("2025-11-20T11:00:00"), ['C#', 'ASP.NET Core'],170,20,13,9),
     new Formation('SQL - Bases de données', 'Maîtrisez les bases de données relationnelles', 'EPHEC', new Date("2025-12-01T10:00:00"), ['SQL', 'Database'],90,25,15,10),
   ];
+    private _notificationService = inject(NotificationService);
   constructor() {
   }
   catalog = signal<Formation[]>(this._catalog);
@@ -26,6 +28,8 @@ export class FormationService {
       c.push(formation);
       return c;
     });
+
+    this._notificationService.notify(`Formation "${formation.title}" added to catalog.`);
   }
 
   deleteFormation(formation: Formation): void {
@@ -34,6 +38,7 @@ export class FormationService {
       this.catalog().splice(index, 1);
 
       this.catalog.set([...this.catalog()]); // Force Angular to detect the change
+          this._notificationService.notify(`Formation "${formation.title}" removed from catalog.`);
     }
   }
 
