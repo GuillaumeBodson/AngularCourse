@@ -40,8 +40,6 @@ import {Router} from '@angular/router';
 export class FormationFilterComponent {
   router = inject(Router)
   tagService = inject(TagService);
-  //filter = model.required<FormationFilter|null>()
-
   form = new FormGroup({
     title: new FormControl<string>('',
       [Validators.maxLength(100)]),

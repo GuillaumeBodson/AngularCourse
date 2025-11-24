@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {MatToolbar} from "@angular/material/toolbar";
-import {Menu} from '../menu';
+import {LayoutService} from '../layout.service';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMiniFabButton} from '@angular/material/button';
 
@@ -15,5 +15,5 @@ import {MatMiniFabButton} from '@angular/material/button';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  menuService = inject(Menu);
+  menuService = inject(LayoutService);
 }

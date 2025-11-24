@@ -7,18 +7,18 @@ export class FormationFilter {
   availableSeatsMin: number;
   startDate: Date | null;
   endDate: Date | null;
-  onlyPastFormations: boolean;
+  hidePastFormations: boolean;
 
-  constructor(title: string, tags: string[], maxPrice: number|null, availableSeatsMin: number, startDate: Date|null, endDate: Date|null, onlyPastFormations: boolean) {
+  constructor(title: string, tags: string[], maxPrice: number|null, availableSeatsMin: number, startDate: Date|null, endDate: Date|null, hidePastFormations: boolean) {
     this.title = title ?? '';
     this.tags = tags ?? [];
     this.maxPrice = maxPrice ?? null;
     this.availableSeatsMin = availableSeatsMin ?? -1;
     this.startDate = startDate ?? null;
     this.endDate = endDate ?? null;
-    this.onlyPastFormations = onlyPastFormations ?? false;
+    this.hidePastFormations = hidePastFormations ?? false;
 
-    if(onlyPastFormations){
+    if(this.hidePastFormations){
       this.endDate = new Date();
       this.startDate = null;
     }
@@ -47,7 +47,7 @@ export class FormationFilter {
       catalog = catalog.filter(f => f.date >= this.startDate!);
     }
     if(this.endDate){
-      catalog = catalog.filter(f => f.date <= this.endDate!);
+      catalog = catalog.filter(f => f.date >= this.endDate!);
     }
     return catalog;
   }

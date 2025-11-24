@@ -6,7 +6,7 @@ import {FooterComponent} from './Layout/footer/footer.component';
 import {HeaderComponent} from './Layout/header/header.component';
 import {ContentComponent} from './Layout/content/content.component';
 import {MenuComponent} from './Layout/menu/menu.component';
-import {Menu} from './Layout/menu';
+import {LayoutService} from './Layout/layout.service';
 import {MatMiniFabButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 
@@ -24,5 +24,5 @@ import {MatIcon} from '@angular/material/icon';
 })
 export class AppComponent {
 
-  menuService = inject(Menu);
+  menuService = inject(LayoutService);
 }
