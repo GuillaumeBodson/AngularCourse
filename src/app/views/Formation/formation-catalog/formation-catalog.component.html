@@ -9,18 +9,18 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-<app-distance-slider [(value)]="distanceFilter" ></app-distance-slider>
+<app-distance-slider [(value)]="formationService.distanceFilter" ></app-distance-slider>
 
 
-@for (formation of pagedCatalog(); track formation.id) {
+@for (formation of formationService.pagedCatalog(); track formation.id) {
   <app-formation-card [formation]="formation"></app-formation-card>
 }
 
 <mat-paginator
-  [length]="filteredCatalog().length"
-  [pageIndex]="pageIndex()"
-  [pageSize]="pageSize()"
-  [pageSizeOptions]="pageSizeOptions"
+  [length]="formationService.length()"
+  [pageIndex]="formationService.pageIndex()"
+  [pageSize]="formationService.pageSize()"
+  [pageSizeOptions]="formationService.pageSizeOptions"
   aria-label="Select page"
   (page)="onPage($event)">
 </mat-paginator>

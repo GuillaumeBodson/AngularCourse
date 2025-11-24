@@ -1,17 +1,13 @@
-import {Component, computed, inject, signal, WritableSignal} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormationCardComponent} from '../formation-card/formation-card.component';
-import {FormationService} from '../formation.service';
 import {FormsModule} from '@angular/forms';
 import {FormationFilterComponent} from '../formation-filter.component/formation-filter.component';
-import {FormationFilter} from '../../../model/formationFilter';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
-import {ActivatedRoute} from '@angular/router';
-import {toSignal} from '@angular/core/rxjs-interop';
-import {map} from 'rxjs';
 import {
   DistanceSliderComponent
 } from '../formation-filter.component/distance-slider.component/distance-slider.component';
+import {PagedFormationService} from '../paged.formation.service';
 
 @Component({
   selector: 'app-formation-catalog',
@@ -27,54 +23,11 @@ import {
   styleUrl: './formation-catalog.component.css'
 })
 export class FormationCatalogComponent {
-  formationService = inject(FormationService);
-  route = inject(ActivatedRoute);
-
-  readonly queryFilter = toSignal(
-    this.route.queryParamMap.pipe(map(p => p.get('filter'))),
-    { initialValue: null }
-  );
-
-  filter :WritableSignal<FormationFilter|null> = signal(null)
-  distanceFilter = signal(100)
-
-  readonly parsedFilter = computed(() => {
-    const raw = this.queryFilter();
-    if (!raw) return null;
-    try {
-      const json = JSON.parse(raw) as FormationFilter;
-      return FormationFilter.fromJson(json);
-    } catch {
-      return null;
-    }
-  });
-
-
-  filteredCatalog = computed(
-    () => {
-      let catalog = this.formationService.catalog();
-      catalog = catalog.filter(f => f.distance <= this.distanceFilter());
-
-      if (!this.parsedFilter()) return catalog;
-
-      catalog = this.parsedFilter()!.applyFilter(catalog);
-      return catalog;
-    });
-
-  // Pagination
-  readonly pageIndex = signal(0);
-  readonly pageSize = signal(2);
-  readonly pageSizeOptions = [2, 5, 10];
-
-  readonly pagedCatalog = computed(() => {
-    const list = this.filteredCatalog();
-    const start = this.pageIndex() * this.pageSize();
-    return list.slice(start, start + this.pageSize());
-  });
+  formationService = inject(PagedFormationService);
 
   onPage(event: PageEvent) {
-    this.pageIndex.set(event.pageIndex);
-    this.pageSize.set(event.pageSize);
+    this.formationService.pageIndex.set(event.pageIndex);
+    this.formationService.pageSize.set(event.pageSize);
   }
 
 }
