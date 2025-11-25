@@ -14,9 +14,9 @@ export class FormationService {
 
   private _notificationService = inject(NotificationService);
 
-  private _client = inject(Client)
+  private _client = inject(Client);
 
-  private readonly refreshTrigger$ = new Subject<void>()
+  private readonly refreshTrigger$ = new Subject<void>();
   private readonly findFormations :Observable<Formation[]> =
     this.refreshTrigger$.pipe(
       startWith([]),
@@ -38,7 +38,8 @@ export class FormationService {
   mapFormation = (f: FormationDto) => {
     return {
       ...f,
-            date: f.date,
+      date: f.date,
+      location: '',
       distance: Math.floor(Math.random() * 100),
     } as Formation
   }
@@ -67,9 +68,9 @@ export class FormationService {
     return toSignal(this._client.formationsGET(formationId)
       .pipe(
         map(this.mapFormation),
-        catchError(err => {
-          console.log(`error fetching formation with id ${formationId}`, err);
-          throw err;
+        catchError(() => {
+          this._notificationService.notify(`Error fetching formation with id ${formationId}.`);
+          return of({} as Formation);
         })
       ),
       {initialValue: {} as Formation}
