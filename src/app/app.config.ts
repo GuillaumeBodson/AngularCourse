@@ -4,6 +4,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import {MAT_DATE_LOCALE, provideNativeDateAdapter} from '@angular/material/core';
 import {provideHttpClient} from '@angular/common/http';
+import {API_BASE_URL} from './apiclient/client';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,6 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideNativeDateAdapter(),
     {provide: MAT_DATE_LOCALE, useValue: 'fr-BE'},
-    provideHttpClient()
+    provideHttpClient(),
+    {provide: API_BASE_URL, useValue: 'https://localhost:7122' }
   ]
 };

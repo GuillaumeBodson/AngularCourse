@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Formation} from '../../../model/formation';
+import {Formation} from '../../../model/Formation';
 import {MatButton} from '@angular/material/button';
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from '@angular/material/datepicker';
 import {MatError, MatFormField, MatHint, MatSuffix} from '@angular/material/form-field';

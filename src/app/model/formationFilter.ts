@@ -1,4 +1,4 @@
-import {Formation} from './formation';
+import {Formation} from './Formation';
 
 export class FormationFilter {
   title: string;

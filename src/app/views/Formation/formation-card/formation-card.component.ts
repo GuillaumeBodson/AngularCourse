@@ -8,7 +8,7 @@ import {
   MatCardSubtitle,
   MatCardTitle
 } from "@angular/material/card";
-import {Formation} from '../../../model/formation';
+import {Formation} from '../../../model/Formation';
 import {MatButton} from '@angular/material/button';
 import {FormationService} from '../formation.service';
 import {Router} from '@angular/router';
