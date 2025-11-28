@@ -14,10 +14,7 @@ import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angula
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
-@Injectable({
-    providedIn: 'root'
-  }
-)
+@Injectable()
 export class Client {
     private http: HttpClient;
     private baseUrl: string;
@@ -87,7 +84,7 @@ export class Client {
     }
 
     /**
-     * @return OK
+     * @return Created
      */
     formationsPOST(body: FormationDto): Observable<void> {
         let url_ = this.baseUrl + "/formations";
@@ -125,7 +122,7 @@ export class Client {
             (response as any).error instanceof Blob ? (response as any).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
+        if (status === 201) {
             return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
             return _observableOf(null as any);
             }));

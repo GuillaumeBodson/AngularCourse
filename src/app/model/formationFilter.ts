@@ -43,11 +43,11 @@ export class FormationFilter {
     if(this.availableSeatsMin != null && this.availableSeatsMin! > 0){
       catalog = catalog.filter(f => f.remainingSeats >= this!.availableSeatsMin!);
     }
-    if((this.startDate && this.endDate && this.startDate == this.endDate) || this.startDate ){
+    if(this.startDate){
       catalog = catalog.filter(f => f.date >= this.startDate!);
     }
     if(this.endDate){
-      catalog = catalog.filter(f => f.date >= this.endDate!);
+      catalog = catalog.filter(f => f.date <= this.endDate!);
     }
     return catalog;
   }

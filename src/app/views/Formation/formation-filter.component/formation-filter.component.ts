@@ -1,5 +1,5 @@
-import {Component, inject} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {Component, inject, model, signal} from '@angular/core';
+import {FormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
 import {
   MatDatepickerToggle,
@@ -27,7 +27,6 @@ import {Router} from '@angular/router';
     MatInput,
     MatLabel,
     MatSuffix,
-    ReactiveFormsModule,
     MatSelect,
     MatOption,
     MatDateRangeInput,
@@ -38,37 +37,37 @@ import {Router} from '@angular/router';
   styleUrl: './formation-filter.component.css'
 })
 export class FormationFilterComponent {
-  router = inject(Router)
+  router = inject(Router);
   tagService = inject(TagService);
-  form = new FormGroup({
-    title: new FormControl<string>('',
-      [Validators.maxLength(100)]),
-    PreviousFormations: new FormControl<boolean>(false),
-    range: new FormGroup({
-      start: new FormControl<Date | null>(null),
-      end: new FormControl<Date | null>(null),
-    }),
-    maxPrice: new FormControl<number | null>(null,
-      [Validators.min(0)]),
-    availableSeatsMin: new FormControl<number | null>(null,
-      [Validators.min(0)]),
-    tags: new FormControl<string[] | null> (null,)
-  });
+  filter = model.required<FormationFilter>();
+
+  title = signal<string>('');
+  previousFormations = signal<boolean>(false);
+  startDate = signal<Date | null>(null);
+  endDate = signal<Date | null>(null);
+  maxPrice = signal<number | null>(null);
+  availableSeatsMin = signal<number | null>(null);
+  tags = signal<string[]>([]);
+
+
 
   submit() {
-    const v = this.form.value;
     let formationFilter: FormationFilter = new FormationFilter(
-      v.title ?? '',
-      v.tags ?? [],
-      v.maxPrice ?? null,
-      v.availableSeatsMin ?? -1,
-      v.range?.start ?? null,
-      v.range?.end ?? null,
-      v.PreviousFormations ?? false,
+      this.title(),
+      this.tags(),
+      this.maxPrice(),
+      this.availableSeatsMin() ?? -1,
+      this.startDate(),
+      this.endDate(),
+      this.previousFormations(),
     );
 
-    this.router.navigate(
-      ['/catalog'],
-      { queryParams: { filter: JSON.stringify(formationFilter) } });
+    this.filter.set(formationFilter);
+
+
+
+    // this.router.navigate(
+    //   ['/catalog'],
+    //   { queryParams: { filter: JSON.stringify(formationFilter) } });
   }
 }

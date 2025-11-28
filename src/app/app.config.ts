@@ -14,7 +14,7 @@ import {
   NativeDateAdapter
 } from '@angular/material/core';
 import {provideHttpClient} from '@angular/common/http';
-import {API_BASE_URL} from './apiclient/client';
+import {API_BASE_URL, Client} from './apiclient/client';
 import {formatDate} from '@angular/common';
 
 /**
@@ -81,13 +81,12 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    // provideNativeDateAdapter(),
     {provide: DateAdapter, useClass: FrBeLocaleDateAdapter},
     {provide: MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS},
     {provide: MAT_DATE_LOCALE, useValue: 'fr-BE'},
     {provide: LOCALE_ID, useValue: 'fr-BE'},
-
     provideHttpClient(),
-    {provide: API_BASE_URL, useValue: 'https://localhost:7122' }
+    {provide: API_BASE_URL, useValue: 'https://localhost:7122' },
+    Client
   ]
 };
